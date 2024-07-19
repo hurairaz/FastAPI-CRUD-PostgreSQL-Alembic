@@ -1,116 +1,159 @@
 # Project Setup Guide
 
-This guide covers the steps to set up a FastAPI project with PostgreSQL and Alembic for database migrations.
+## 1. Clone the Repository
 
-## 1. Install PostgreSQL
+Open your terminal and clone the repository:
 
-### Update Package List
 ```sh
-sudo apt-get update
+git clone https://github.com/hurairaz/FastAPI-CRUD-PostgreSQL-Alembic.git
 ```
 
-### Install PostgreSQL and Contrib Package
+## 2. Open the Project in Your IDE
+
+Open the cloned project in your preferred IDE (e.g., PyCharm).
+
+## 3. Install Dependencies
+
+Navigate to the project directory and install the required Python packages:
+
 ```sh
+pip install -r requirements.txt
+```
+
+**Note:** The `psycopg2-binary` package is used to connect PostgreSQL with Python, and `alembic` is used for database migrations.
+
+## 4. Install PostgreSQL
+
+### On Ubuntu
+
+Update your package list and install PostgreSQL:
+
+```sh
+sudo apt-get update
 sudo apt-get install postgresql postgresql-contrib
 ```
 
-### Check PostgreSQL Service Status
+Check the status of the PostgreSQL service:
+
 ```sh
 service postgresql status
 ```
 
-### Open PostgreSQL in Terminal
+### Access PostgreSQL
+
+Switch to the PostgreSQL user and access the PostgreSQL terminal:
+
 ```sh
 sudo su postgres
 psql
 ```
 
-### List of Databases
-```sql
-\l
-```
+### Database Management
 
-### List of Users
-```sql
-\du
-```
+- **List Databases:**
 
-### Set Password for User (e.g., `postgres`)
-```sql
-ALTER USER postgres WITH PASSWORD 'new_password';
-```
+  ```sh
+  \l
+  ```
 
-### Get Hostname
-```sql
-SHOW listen_addresses;
-```
+- **List Users(Get your username):**
 
-### Create Database
-```sql
-CREATE DATABASE database_name;
-```
+  ```sh
+  \du
+  ```
 
-### Verify Your Database in the List
-```sql
-\l
-```
+- **Set Password:**
 
-## 2. Install PostgreSQL Adapter to Connect with Python Code
+  ```sql
+  ALTER USER postgres WITH PASSWORD 'new_password';
+  ```
+
+- **Get Hostname:**
+
+  ```sql
+  SHOW listen_addresses;
+  ```
+
+- **Create a New Database:**
+
+  ```sql
+  CREATE DATABASE database_name;
+  ```
+
+- **Verify the Database:**
+
+  ```sh
+  \l
+  ```
+
+## 5. Initialize Alembic
+
+Initialize Alembic for database migrations:
+
 ```sh
-pip install psycopg2-binary
-```
-
-## 3. Install Alembic
-```sh
-pip install alembic
 alembic init alembic
 ```
 
-## 4. Configure Database URL in `database.py`
+## 6. Configure Database URL
+
+### In `database.py`
+
+Add your PostgreSQL database URL:
+
 ```python
 SQLALCHEMY_DATABASE_URL = "postgresql://username:password@hostname/database_name"
 ```
 
-## 5. Configure Database URL in `alembic.ini`
-Open `alembic.ini` and update:
+**Note:** In this project, the URL is stored in a `.env` file and accessed from there.
+
+### In `alembic.ini`
+
+Add the PostgreSQL database URL:
+
 ```ini
-sqlalchemy.url = postgresql://username:password@hostname/database_name
+sqlalchemy.url = "postgresql://username:password@hostname/database_name"
 ```
 
-## 6. Update `env.py` in Alembic Folder
-Add the following imports and configuration:
+## 7. Configure Alembic
+
+### In `env.py` in the Alembic Folder
+
+Update the `env.py` file to include your models:
+
 ```python
 from database import Base
 from models import *
+
 target_metadata = Base.metadata
 ```
 
-## 7. Verify Connection and Tables
+This configuration connects your tables in `models.py` to your PostgreSQL database.
 
-### Open PostgreSQL in Terminal
+## 8. Verify the Database Schema
+
+### Access PostgreSQL
+
+Switch to the PostgreSQL user and access the database:
+
 ```sh
 sudo su postgres
 psql
 ```
 
-### Verify Your Database Exists in the List
-```sql
-\l
-```
+- **Connect to Your Database:**
 
-### Connect to Database
-```sql
-\c database_name
-```
+  ```sh
+  \c database_name
+  ```
 
-### See Tables (Tables in models.py should reflect here)
-```sql
-\dt
-```
+- **See Tables:**
 
-### Open a Specific Table
-```sql
-\d table_name
-```
+  ```sh
+  \dt
+  ```
 
----
+- **Open a Specific Table:**
+
+  ```sh
+  \d table_name
+  ```
