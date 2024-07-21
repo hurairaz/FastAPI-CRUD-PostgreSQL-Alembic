@@ -1,3 +1,5 @@
+**Note:** If you want to understand the project structure, please refer to my repository Python-FastApi-SQLite
+
 # Project Setup Guide
 
 ## 1. Clone the Repository
