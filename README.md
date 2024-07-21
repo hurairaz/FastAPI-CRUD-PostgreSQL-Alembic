@@ -53,37 +53,37 @@ psql
 - **List Databases:**
 
   ```sh
-  \l
+  postgres=# \l
   ```
 
-- **List Users(Get your username):**
+- **List Users(Get Username):**
 
   ```sh
-  \du
+  postgres=# \du
   ```
 
 - **Set Password:**
 
   ```sql
-  ALTER USER postgres WITH PASSWORD 'new_password';
+  postgres=# ALTER USER postgres WITH PASSWORD 'new_password';
   ```
 
 - **Get Hostname:**
 
   ```sql
-  SHOW listen_addresses;
+  postgres=# SHOW listen_addresses;
   ```
 
 - **Create a New Database:**
 
   ```sql
-  CREATE DATABASE database_name;
+  postgres=# CREATE DATABASE database_name;
   ```
 
 - **Verify the Database:**
 
   ```sh
-  \l
+  postgres=# \l
   ```
 
 ## 5. Initialize Alembic
@@ -111,7 +111,7 @@ SQLALCHEMY_DATABASE_URL = "postgresql://username:password@hostname/database_name
 Add the PostgreSQL database URL:
 
 ```ini
-sqlalchemy.url = "postgresql://username:password@hostname/database_name"
+sqlalchemy.url = postgresql://username:password@hostname/database_name
 ```
 
 ## 7. Configure Alembic
@@ -143,17 +143,19 @@ psql
 - **Connect to Your Database:**
 
   ```sh
-  \c database_name
+  postgres=# \c database_name
   ```
 
 - **See Tables:**
 
   ```sh
-  \dt
+  postgres=# \dt
   ```
+**Note:** Your tables in models.py will reflect here
 
 - **Open a Specific Table:**
 
   ```sh
-  \d table_name
+  postgres=# \d table_name
   ```
+  
