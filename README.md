@@ -1,13 +1,13 @@
 # Integrating FastAPI with SQLAlchemy-PostgreSQL and Alembic
 
-This repository offers a detailed guide for setting up a FastAPI application with a PostgreSQL database, using SQLAlchemy as the ORM and Alembic for managing database migrations.
+This repository provides a detailed guide on integrating a FastAPI application with a PostgreSQL database using SQLAlchemy for ORM and Alembic for database migrations
 
 ## Project Structure
 
 The project structure is as follows:
 
 ```
-FastAPI-CRUD-PostgreSQL-Alembic
+Integrating-FastAPI-with-SQLAlchemy-PostgreSQL-and-Alembic
 ├── fastapi_postgres-app
 │   ├── __init__.py
 │   ├── crud.py
@@ -15,8 +15,12 @@ FastAPI-CRUD-PostgreSQL-Alembic
 │   ├── models.py
 │   ├── schemas.py
 │   └── main.py
-├── alembic
 │   └── alembic.ini
+├── alembic
+│   ├── versions
+│   │   └── env.py
+│   │   └── script.py.mako
+│   └── README
 └── README.md
 ```
 **Note:** If you want to fully understand the project structure, please refer to my repository Python-FastApi-SQLite
@@ -26,7 +30,7 @@ FastAPI-CRUD-PostgreSQL-Alembic
 To get started with the project, first clone the repository to your local machine:
 
 ```sh
-git clone https://github.com/hurairaz/FastAPI-CRUD-PostgreSQL-Alembic.git
+git clone https://github.com/hurairaz/Integrating-FastAPI-with-SQLAlchemy-PostgreSQL-and-Alembic.git
 ```
 
 Once cloned, navigate to the project directory and install the required Python packages using:
@@ -35,7 +39,7 @@ Once cloned, navigate to the project directory and install the required Python p
 pip install -r requirements.txt
 ```
 
-The `psycopg2-binary` package is used for connecting PostgreSQL with Python, and `alembic` is used for handling database migrations.
+**Note:** The `psycopg2-binary` package is used for connecting PostgreSQL with Python, and `alembic` is used for handling database migrations.
 
 ## Setting Up PostgreSQL
 
