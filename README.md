@@ -1,163 +1,169 @@
-**Note:** If you want to understand the project structure, please refer to my repository Python-FastApi-SQLite
+# Integrating FastAPI with SQLAlchemy-PostgreSQL and Alembic
 
-# Project Setup Guide
+This repository offers a detailed guide for setting up a FastAPI application with a PostgreSQL database, using SQLAlchemy as the ORM and Alembic for managing database migrations.
 
-## 1. Clone the Repository
+## Project Structure
 
-Open your terminal and clone the repository:
+The project structure is as follows:
+
+```
+FastAPI-CRUD-PostgreSQL-Alembic
+├── fastapi_postgres-app
+│   ├── __init__.py
+│   ├── crud.py
+│   ├── database.py
+│   ├── models.py
+│   ├── schemas.py
+│   └── main.py
+├── alembic
+│   └── alembic.ini
+└── README.md
+```
+**Note:** If you want to fully understand the project structure, please refer to my repository Python-FastApi-SQLite
+
+## Getting Started
+
+To get started with the project, first clone the repository to your local machine:
 
 ```sh
 git clone https://github.com/hurairaz/FastAPI-CRUD-PostgreSQL-Alembic.git
 ```
 
-## 2. Open the Project in Your IDE
-
-Open the cloned project in your preferred IDE (e.g., PyCharm).
-
-## 3. Install Dependencies
-
-Navigate to the project directory and install the required Python packages:
+Once cloned, navigate to the project directory and install the required Python packages using:
 
 ```sh
 pip install -r requirements.txt
 ```
 
-**Note:** The `psycopg2-binary` package is used to connect PostgreSQL with Python, and `alembic` is used for database migrations.
+The `psycopg2-binary` package is used for connecting PostgreSQL with Python, and `alembic` is used for handling database migrations.
 
-## 4. Install PostgreSQL
+## Setting Up PostgreSQL
 
-### On Ubuntu
-
-Update your package list and install PostgreSQL:
+On Ubuntu, you can update your package list and install PostgreSQL with:
 
 ```sh
 sudo apt-get update
 sudo apt-get install postgresql postgresql-contrib
 ```
 
-Check the status of the PostgreSQL service:
+After installation, check the status of the PostgreSQL service:
 
 ```sh
 service postgresql status
 ```
 
-### Access PostgreSQL
-
-Switch to the PostgreSQL user and access the PostgreSQL terminal:
+To configure PostgreSQL, switch to the PostgreSQL user and access the PostgreSQL terminal:
 
 ```sh
 sudo su postgres
 psql
 ```
 
-### Database Management
+In the PostgreSQL terminal, you can list users to get your username with:
 
-- **List Databases:**
+```sh
+postgres=# \du
+```
 
-  ```sh
-  postgres=# \l
-  ```
+Set the password for the `postgres` user:
 
-- **List Users(Get Username):**
+```sql
+postgres=# ALTER USER postgres WITH PASSWORD 'new_password';
+```
 
-  ```sh
-  postgres=# \du
-  ```
+To get the hostname, use:
 
-- **Set Password:**
+```sql
+postgres=# SHOW listen_addresses;
+```
 
-  ```sql
-  postgres=# ALTER USER postgres WITH PASSWORD 'new_password';
-  ```
+Create a new database:
 
-- **Get Hostname:**
+```sql
+postgres=# CREATE DATABASE database_name;
+```
 
-  ```sql
-  postgres=# SHOW listen_addresses;
-  ```
+Verify the database creation with:
 
-- **Create a New Database:**
+```sh
+postgres=# \l
+```
 
-  ```sql
-  postgres=# CREATE DATABASE database_name;
-  ```
+With your PostgreSQL username, password, hostname, and database name, you can now connect your FastAPI application to the database and initialize Alembic for database migrations.
 
-- **Verify the Database:**
+## Configuring FastAPI and Alembic
 
-  ```sh
-  postgres=# \l
-  ```
-
-## 5. Initialize Alembic
-
-Initialize Alembic for database migrations:
+Initialize Alembic for database migrations with:
 
 ```sh
 alembic init alembic
 ```
 
-## 6. Configure Database URL
-
-### In `database.py`
-
-Add your PostgreSQL database URL:
+In the `database.py` file, add your PostgreSQL database URL:
 
 ```python
 SQLALCHEMY_DATABASE_URL = "postgresql://username:password@hostname/database_name"
 ```
 
-**Note:** In this project, the URL is stored in a `.env` file and accessed from there.
+Note that in this project, the URL is stored in a `.env` file and accessed from there.
 
-### In `alembic.ini`
-
-Add the PostgreSQL database URL:
+In the `alembic.ini` file, update the PostgreSQL database URL:
 
 ```ini
 sqlalchemy.url = postgresql://username:password@hostname/database_name
 ```
 
-## 7. Configure Alembic
-
-### In `env.py` in the Alembic Folder
-
-Update the `env.py` file to include your models:
+Then, in the `env.py` file located in the Alembic folder, update it to include your models:
 
 ```python
 from database import Base
-from models import *
-
 target_metadata = Base.metadata
 ```
 
-This configuration connects your tables in `models.py` to your PostgreSQL database.
+This configuration ensures that Alembic connects your tables defined in `models.py` to your PostgreSQL database. 
 
-## 8. Verify the Database Schema
+To apply the initial database migration, run:
 
-### Access PostgreSQL
+```sh
+alembic revision --autogenerate -m "Initial migration"
+alembic upgrade head
+```
 
-Switch to the PostgreSQL user and access the database:
+To verify the setup, check if the database contains the tables you defined in `models.py`. Open your terminal and connect to the database:
 
 ```sh
 sudo su postgres
 psql
 ```
 
-- **Connect to Your Database:**
+Connect to your database with:
 
-  ```sh
-  postgres=# \c database_name
-  ```
+```sh
+postgres=# \c database_name
+```
 
-- **See Tables:**
+List the tables with:
 
-  ```sh
-  postgres=# \dt
-  ```
-**Note:** Your tables in models.py will reflect here
+```sh
+postgres=# \dt
+```
 
-- **Open a Specific Table:**
+To view the details of a specific table, use:
 
-  ```sh
-  postgres=# \d table_name
-  ```
-  
+```sh
+postgres=# \d table_name
+```
+
+This will ensure that your tables from `models.py` are properly reflected in the database.
+
+## Running the Application
+
+To run the FastAPI application, open a terminal in your project directory and execute:
+
+```sh
+uvicorn main:app --reload
+```
+
+This will start the FastAPI server, and you can access your application at `http://127.0.0.1:8000`.
+
+---
