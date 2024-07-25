@@ -23,7 +23,6 @@ Integrating-FastAPI-with-SQLAlchemy-PostgreSQL-and-Alembic
 │   └── README
 └── README.md
 ```
-**Note:** If you want to fully understand the project structure, please refer to my repository Python-FastApi-SQLite
 
 ## Getting Started
 
@@ -109,7 +108,7 @@ In the `database.py` file, add your PostgreSQL database URL:
 SQLALCHEMY_DATABASE_URL = "postgresql://username:password@hostname/database_name"
 ```
 
-Note that in this project, the URL is stored in a `.env` file and accessed from there.
+**Note:** In this project, the URL is stored in a `.env` file and accessed from there.
 
 In the `alembic.ini` file, update the PostgreSQL database URL:
 
